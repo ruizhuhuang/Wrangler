@@ -6,14 +6,12 @@ split_kv=function(kv){
   return(df)
 }
 
-getWordCountDF = function(input_file,output_dir, num_executor){
+getWordCountDF = function(input_file, num_executor){
   input_file = input_file
-  output_dir = output_dir
   num_executor= num_executor
-  submit_cmd = paste("spark-submit --master yarn-client --num-executors ", 
-                     num_executor, " wordcount.py ", input_file, " ", output_dir, sep="")
+  submit_cmd = paste("spark-submit --master yarn-client --num-executors ", num_executor, " wordcount.py ", input_file, " ", sep="")
   dat=data.frame()
-  if (input_file!="" & output_dir!=""){
+  if (input_file!=""){
     kv=system(submit_cmd, intern = TRUE)
     #print(kv)
     dat=split_kv(kv)

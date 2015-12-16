@@ -9,15 +9,17 @@ shinyUI(fluidPage(
     column(3, 
            textInput("text_input", label = h3("Input"), 
                      value = "/user/rhuang/data/book.txt")),
-    column(3, 
-           textInput("text_output", label = h3("Output"), 
-                     value = "/user/rhuang/output/test1")),
+
     column(3, 
            sliderInput("slider1", label = h3("Number of executor"),
                        min = 1, max = 200, value = 10)
     ),
+    column(3,
+           sliderInput("slider2", "Top Range",
+                       min = 1, max = 100, value = c(1, 10))
+    ),
     column(3, 
-           h3("Buttons"),submitButton("Submit")
+           h3(""),submitButton("Submit")
            
     )       
   ),
@@ -28,5 +30,5 @@ shinyUI(fluidPage(
       plotOutput("barPlot")
     )
   )
- 
+  
 ))

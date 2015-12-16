@@ -2,7 +2,7 @@ import sys
 from pyspark import SparkConf, SparkContext
 
 input = sys.argv[1]
-output = sys.argv[2]
+#output = sys.argv[2]
 
 conf = (SparkConf()
          .setMaster("yarn-client")
