@@ -1,56 +1,70 @@
 
 # coding: utf-8
 
-# In[1]:
 
 from abc import ABCMeta, abstractmethod
 import pprint
+import sys
+import os
+sys.path.append('/work/00791/xwj/SeqVerify/py_packages/lib/python2.7/site-packages/')
+
+
+
+sys.path.append('/work/00791/xwj/SeqVerify/py_packages/')
 from BCBio.GFF import GFFExaminer
+
+
 from Bio import SeqIO
 import sys
 import os
 
-class Format:
-#    __metaclass__ = ABCMeta
+class biofile:
 
-#    @abstractmethod
     def __init__(self,fileName,fmt):
         self.fileName = fileName
         self.fmt = fmt
         
     def fileSize(self):
-        print("\nFile size is",os.stat(self.fileName).st_size, "bytes")
+        return os.stat(self.fileName).st_size
+        #print("\nFile size is",os.stat(self.fileName).st_size, "bytes")
         
     def check(self):
         input_handle = open(self.fileName, "rU")
         sequences = SeqIO.parse(input_handle, self.fmt)
         try:
-            if (sum(1 for x in sequences)==0):
-                return None
+#             if (sum(1 for x in sequences)==0):
+#                 return None
+            next_item = next(sequences)
+        except StopIteration:
+            return None
         except ValueError:
             return None
         else: 
             return self.fmt
 
-class fasta(Format):
+# inherit Format
+class fasta(biofile):
     pass
 
-class gb(Format):
+class fastq(biofile):
     pass
 
-class imgt(Format):
+class tab(biofile):
     pass
 
-class embl(Format):
+class gb(biofile):
     pass
 
-class tab(Format):
+class imgt(biofile):
     pass
 
-class seqxml(Format):
+class embl(biofile):
     pass
 
-class gff(Format):
+class seqxml(biofile):
+    pass
+
+class gff(biofile):
     def __init__(self,fileName,fmt):
         self.fileName = fileName
         self.fmt = fmt
@@ -66,11 +80,10 @@ class gff(Format):
             return None
 
 
-
-# In[4]:
+# In[10]:
 
 def checkFileFmt(fileName): 
-    format_class = {"fasta":fasta,"gb":gb,"gff":gff,"tab":tab,"seqxml":seqxml,"imgt":imgt,"embl":embl}
+    format_class = {"tab":tab, "fasta":fasta,"fastq":fastq,"gb":gb,"gff":gff,"seqxml":seqxml,"imgt":imgt,"embl":embl}
     for f in format_class.keys():
         #print(f)
         f_class = format_class[f]
@@ -80,9 +93,14 @@ def checkFileFmt(fileName):
             return res
         else:
             continue
-# fileNames={"cor6_6.tab","cor6_6.seqxml","cor6_6.imgt","cor6_6.embl","cor6_6.fasta","cor6_6.gb"}
+# fileNames={"cor6_6.tab","B73_all3_R1_val_1_test.fq","cor6_6.seqxml","cor6_6.imgt","cor6_6.embl","cor6_6.fasta","cor6_6.gb"}
 # for file in fileNames:
 #     print(file, checkFileFmt(file))
+
+
+# In[6]:
+
+#get_ipython().system(u'ipython nbconvert --to script check_format_class.ipynb')
 
 
 # In[ ]:
