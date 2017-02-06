@@ -32,26 +32,27 @@ sed "s/storm2/storm3/g" storm.2.yaml > storm.3.yaml
 
 
 ssh $node_1 "cd $DATA;cp zoo_1.cfg zoo.cfg; export ZOOCFGDIR=$DATA; /usr/lib/zookeeper/bin/zkServer.sh start"
-
+sleep 3
 ssh $node_2 "cd $DATA;cp zoo_2.cfg zoo.cfg; export ZOOCFGDIR=$DATA; /usr/lib/zookeeper/bin/zkServer.sh start"
-
+sleep 3
 ssh $node_3 "cd $DATA;cp zoo_3.cfg zoo.cfg; export ZOOCFGDIR=$DATA; /usr/lib/zookeeper/bin/zkServer.sh start"
+sleep 3
 
 ssh $node_1 "cd $DATA;nohup kafka_2.11-0.10.1.0/bin/kafka-server-start.sh server.1.properties &>kk-1.out &"
-
+sleep 3
 ssh $node_2 "cd $DATA;nohup kafka_2.11-0.10.1.0/bin/kafka-server-start.sh server.2.properties &>kk-2.out &"
-
+sleep 3
 ssh $node_3 "cd $DATA;nohup kafka_2.11-0.10.1.0/bin/kafka-server-start.sh server.3.properties &>kk-3.out &"
-
+sleep 3
 
 ssh $node_1 "cd $DATA;nohup apache-storm-1.0.2/bin/storm --config /data/03076/rhuang/storm.1.yaml nimbus &> storm-1.out &"
-
+sleep 3
 ssh $node_2 "cd $DATA;nohup apache-storm-1.0.2/bin/storm --config /data/03076/rhuang/storm.2.yaml supervisor &> storm-2.out &"
-
+sleep 3
 ssh $node_3 "cd $DATA;nohup apache-storm-1.0.2/bin/storm --config /data/03076/rhuang/storm.3.yaml supervisor &> storm-3.out &"
-
+sleep 3
 ssh $node_1 "cd $DATA;nohup apache-storm-1.0.2/bin/storm ui &> storm-ui.out &" 
-
+sleep 3
 ssh $node_1 "cd $DATA;nohup ssh -f -g -N -R 58080:127.0.0.1:8080 login1 >> storm-ui.out 2>&1 &"
 
 

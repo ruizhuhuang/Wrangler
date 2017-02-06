@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "bash this script under $DATA using:"
+echo "bash streaming_services/streaming_services_start.sh hadoop+Evaluating-Identifie+2060 10:00:00 Evaluating-Identifie"   
+
 if [ $# -lt "3" ]; then
   echo "This script requires three arguments:"
   echo "  Reservation"
